@@ -50,10 +50,9 @@ router.put('/:id', validateUser, validateUserId, (req, res, next) => {
 
 router.delete('/:id', validateUserId, async (req, res, next) => {
   const { id } = req.params;
-
-  const deletedUser = await Users.getById(id);
+  
   Users.remove(id)
-    .then( deleteSuccess => res.json(deletedUser) )
+    .then(() => res.json(req.user) )
     .catch( err => next(err) );
 });
 
