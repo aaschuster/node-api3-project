@@ -4,7 +4,8 @@ const Users = require("./users-model");
 
 const { 
   logger,
-  validateUserId 
+  validateUserId,
+  validateUser 
 } = require("../middleware/middleware");
 
 // You will need `users-model.js` and `posts-model.js` both
@@ -29,12 +30,14 @@ router.get('/:id', validateUserId, (req, res, next) => {
   Users.getById(req.params.id)
     .then( user => res.json(user))
     .catch( err => next(err));
-    
+
 });
 
-router.post('/', (req, res) => {
-  // RETURN THE NEWLY CREATED USER OBJECT
-  // this needs a middleware to check that the request body is valid
+router.post('/', validateUser, (req, res, next) => {
+  
+  Users.insert(req.body)
+    .then( newUser => res.json(newUser) )
+    .catch( err => next(err) );
 });
 
 router.put('/:id', (req, res) => {

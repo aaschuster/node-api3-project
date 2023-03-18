@@ -10,7 +10,7 @@ async function validateUserId(req, res, next) {
   if(req.user) next();
   else {
     const err = {
-      customMessage: "No user with such ID",
+      message: "user not found",
       status: 404
     }
     next(err);
@@ -18,7 +18,11 @@ async function validateUserId(req, res, next) {
 }
 
 function validateUser(req, res, next) {
-  // DO YOUR MAGIC
+  if(req.body.name) next();
+  else next({
+    message: "missing required name field",
+    status: 400
+  })
 }
 
 function validatePost(req, res, next) {
