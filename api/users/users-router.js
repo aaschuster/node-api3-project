@@ -42,10 +42,10 @@ router.post('/', validateUser, (req, res, next) => {
     .catch( err => next(err) );
 });
 
-router.put('/:id', (req, res) => {
-  // RETURN THE FRESHLY UPDATED USER OBJECT
-  // this needs a middleware to verify user id
-  // and another middleware to check that the request body is valid
+router.put('/:id', validateUser, validateUserId, (req, res, next) => {
+  Users.update(req.params.id, req.body)
+    .then( updatedUser => res.json(updatedUser) )
+    .catch( err => next(err) );
 });
 
 router.delete('/:id', (req, res) => {
