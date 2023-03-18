@@ -2,15 +2,18 @@ const express = require('express');
 
 const Users = require("./users-model");
 
+const { logger } = require("../middleware/middleware");
+
 // You will need `users-model.js` and `posts-model.js` both
 // The middleware functions also need to be required
 
 const router = express.Router();
 
+router.use(logger);
+
 router.get('/', async (req, res, next) => {
   try {
     const users = await Users.get();
-    throw new Error("ahhh");
     res.json(users);
   } catch (err) {
     err.customMessage = "Failed to retrieve the users from the database";
