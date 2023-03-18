@@ -31,7 +31,7 @@ router.get('/:id', validateUserId, (req, res, next) => {
   
   Users.getById(req.params.id)
     .then( user => res.json(user))
-    .catch( err => next(err));
+    .catch(next);
 
 });
 
@@ -39,13 +39,13 @@ router.post('/', validateUser, (req, res, next) => {
   
   Users.insert(req.body)
     .then( newUser => res.json(newUser) )
-    .catch( err => next(err) );
+    .catch(next);
 });
 
 router.put('/:id', validateUser, validateUserId, (req, res, next) => {
   Users.update(req.params.id, req.body)
     .then( updatedUser => res.json(updatedUser) )
-    .catch( err => next(err) );
+    .catch(next);
 });
 
 router.delete('/:id', validateUserId, async (req, res, next) => {
@@ -53,19 +53,19 @@ router.delete('/:id', validateUserId, async (req, res, next) => {
   
   Users.remove(id)
     .then(() => res.json(req.user) )
-    .catch( err => next(err) );
+    .catch(next);
 });
 
 router.get('/:id/posts', validateUserId, (req, res, next) => {
   Users.getUserPosts(req.params.id)
     .then( userPosts => res.json(userPosts) )
-    .catch( err => next(err) );
+    .catch(next);
 });
 
 router.post('/:id/posts', validateUserId, validatePost, (req, res, next) => {
   Posts.insert({...req.body, user_id: req.params.id})
     .then( newPost => res.json(newPost) )
-    .catch( err => next(err) );
+    .catch(next);
 });
 
 router.use( (err, req, res, next) => {
